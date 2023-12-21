@@ -1,22 +1,33 @@
 use crate::models::Series;
+use serde::{ Serialize, Deserialize };
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Category {
-    id: i32,
-    name: String,
-    series: Vec<Series>,
+    pub id: i32,
+    pub name: String,
+    pub series: Vec<Series>,
 }
 
 impl Category {
-    pub fn new(id: i32, name: String) -> Category {
+    pub fn new(id: i32, new: NewCategory) -> Category {
         Category {
             id,
-            name,
-            series: vec![],
+            name: new.name,
+            series: new.series,
         }
     }
 
     pub fn add_series(&mut self, series: Series) {
         self.series.push(series);
     }
+}
+
+pub struct CategoryChangeset {
+    pub name: Option<String>,
+    pub series: Option<Vec<Series>>,
+}
+
+pub struct NewCategory {
+    pub name: String,
+    pub series: Vec<Series>,
 }

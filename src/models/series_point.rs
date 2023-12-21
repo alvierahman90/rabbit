@@ -1,19 +1,25 @@
 use chrono;
 use super::series_type::SeriesType;
+use serde::{ Serialize, Deserialize };
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct SeriesPoint {
-    id: i32,
-    timestamp: chrono::NaiveDateTime,
-    value: SeriesType,
+    pub id: i32,
+    pub timestamp: chrono::NaiveDateTime,
+    pub value: SeriesType,
 }
 
 impl SeriesPoint {
-    pub fn new(id: i32, timestamp: chrono::NaiveDateTime, value: SeriesType) -> SeriesPoint {
+    pub fn new(id: i32, new: NewSeriesPoint) -> SeriesPoint {
         SeriesPoint {
             id,
-            timestamp,
-            value
+            timestamp: new.timestamp,
+            value: new.value,
         }
     }
+}
+
+pub struct NewSeriesPoint {
+    pub timestamp: chrono::NaiveDateTime,
+    pub value: SeriesType,
 }
