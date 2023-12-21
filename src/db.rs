@@ -29,8 +29,8 @@ pub trait Storage {
     fn add_series_point(&mut self, category_id: i32, series_id: i32, series_point: NewSeriesPoint) -> Result<i32, Error>;
     //fn add_user(&mut self, id: i32, user: NewUser) -> Result<User, Error>;
     fn get_category(&self, id: i32) -> Option<Category>;
-    //fn get_series(&self, id: i32) -> Result<Series, Error>;
-    //fn get_user(&self, id: i32) -> Result<User, Error>;
+    fn get_series(&self, category_id: i32, series_id: i32) -> Option<Series>;
+    //fn get_user(&self, id: i32) -> Option<User>;
     //fn update_category(&mut self, id: i32, changeset: CategoryChangeset) -> Result<(), Error>;
     //fn update_series(&mut self, id: i32, changeset: SeriesChangeset) -> Result<(), Error>;
     //fn update_user(&mut self, id: i32, changeset: UserChangeset) -> Result<(), Error>;

@@ -133,4 +133,25 @@ impl Storage for JsonDb {
 
         None
     }
+
+    fn get_series(&self, category_id: i32, series_id: i32) -> Option<Series> {
+        let data = self.load().ok()?;
+        let mut cat: Option<Category> = None;
+
+        for cat_opt in data {
+            if cat_opt.id == category_id {
+                cat = Some(cat_opt);
+            }
+        }
+
+        let cat = cat.unwrap();
+
+        for series_opt in cat.series {
+            if series_opt.id == series_id {
+                return Some(series_opt)
+            }
+        }
+
+        None
+    }
 }
