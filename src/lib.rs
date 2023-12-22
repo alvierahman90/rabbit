@@ -1,5 +1,5 @@
-mod utils;
-pub mod models;
 pub mod db;
+pub mod models;
+mod utils;
 
 use wasm_bindgen::prelude::*;

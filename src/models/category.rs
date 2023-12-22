@@ -1,5 +1,5 @@
 use crate::models::Series;
-use serde::{ Serialize, Deserialize };
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Category {

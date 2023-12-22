@@ -1,6 +1,6 @@
-use chrono;
 use super::series_type::SeriesType;
-use serde::{ Serialize, Deserialize };
+use chrono;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SeriesPoint {

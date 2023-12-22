@@ -1,6 +1,6 @@
-use chrono;
 use super::series_point::SeriesPoint;
-use serde::{ Serialize, Deserialize };
+use chrono;
+use serde::{Deserialize, Serialize};
 use serde_with;
 
 #[serde_with::serde_as]

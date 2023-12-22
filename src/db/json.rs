@@ -9,7 +9,9 @@ impl JsonDb {
     pub fn new(value: Option<String>) -> Self {
         match value {
             Some(value) => JsonDb { value },
-            None => JsonDb { value: String::from("[]") },
+            None => JsonDb {
+                value: String::from("[]"),
+            },
         }
     }
 
@@ -26,7 +28,7 @@ impl JsonDb {
             Ok(d) => {
                 self.value = d;
                 Ok(())
-            },
+            }
             Err(e) => Err(Error::from(e)),
         }
     }
@@ -41,7 +43,7 @@ impl Storage for JsonDb {
                 max_id = cat.id
             }
         }
-        let created = Category::new(max_id+1, category);
+        let created = Category::new(max_id + 1, category);
         data.push(created);
         self.save(data)?;
 
@@ -61,10 +63,9 @@ impl Storage for JsonDb {
         }
 
         if let None = cat {
-            return Err(Error::Generic ("Unable to find category".to_owned()));
+            return Err(Error::Generic("Unable to find category".to_owned()));
         }
         let cat = cat.unwrap();
-
 
         for series in cat.series.iter().clone() {
             if series.id > max_id {
@@ -72,14 +73,19 @@ impl Storage for JsonDb {
             }
         }
 
-        let created = Series::new(max_id+1, series);
+        let created = Series::new(max_id + 1, series);
         cat.series.push(created);
         self.save(data)?;
 
         Ok(max_id + 1)
     }
 
-    fn add_series_point(&mut self, category_id: i32, series_id: i32, series_point: NewSeriesPoint) -> Result<i32, Error> {
+    fn add_series_point(
+        &mut self,
+        category_id: i32,
+        series_id: i32,
+        series_point: NewSeriesPoint,
+    ) -> Result<i32, Error> {
         let mut max_id = 1;
         let mut cat: Option<&mut Category> = None;
         let mut series: Option<&mut Series> = None;
@@ -93,7 +99,7 @@ impl Storage for JsonDb {
         }
 
         if let None = cat {
-            return Err(Error::Generic ("Unable to find category".to_owned()));
+            return Err(Error::Generic("Unable to find category".to_owned()));
         }
         let cat = cat.unwrap();
 
@@ -105,7 +111,7 @@ impl Storage for JsonDb {
         }
 
         if let None = series {
-            return Err(Error::Generic ("Unable to find series".to_owned()));
+            return Err(Error::Generic("Unable to find series".to_owned()));
         }
         let series: &mut Series = series.unwrap();
 
@@ -148,7 +154,7 @@ impl Storage for JsonDb {
 
         for series_opt in cat.series {
             if series_opt.id == series_id {
-                return Some(series_opt)
+                return Some(series_opt);
             }
         }
 

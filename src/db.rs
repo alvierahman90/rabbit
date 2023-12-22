@@ -1,8 +1,8 @@
 pub mod json;
 
 use crate::models::*;
-use std::io;
 use serde_json;
+use std::io;
 
 #[derive(Debug)]
 pub enum Error {
@@ -18,7 +18,7 @@ impl From<io::Error> for Error {
 }
 
 impl From<serde_json::Error> for Error {
-    fn from(e: serde_json::Error) -> Self{
+    fn from(e: serde_json::Error) -> Self {
         Self::Json(e.to_string())
     }
 }
@@ -26,7 +26,12 @@ impl From<serde_json::Error> for Error {
 pub trait Storage {
     fn add_category(&mut self, category: NewCategory) -> Result<i32, Error>;
     fn add_series(&mut self, category_id: i32, series: NewSeries) -> Result<i32, Error>;
-    fn add_series_point(&mut self, category_id: i32, series_id: i32, series_point: NewSeriesPoint) -> Result<i32, Error>;
+    fn add_series_point(
+        &mut self,
+        category_id: i32,
+        series_id: i32,
+        series_point: NewSeriesPoint,
+    ) -> Result<i32, Error>;
     //fn add_user(&mut self, id: i32, user: NewUser) -> Result<User, Error>;
     fn get_category(&self, id: i32) -> Option<Category>;
     fn get_series(&self, category_id: i32, series_id: i32) -> Option<Series>;
