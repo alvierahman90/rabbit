@@ -2,17 +2,17 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct User {
-    id: i32,
-    name: String,
-    email: String,
+    pub id: i32,
+    pub name: String,
+    pub email: String,
 }
 
 pub struct UserChangeset {
-    name: Option<String>,
-    email: Option<String>,
+    pub name: Option<String>,
+    pub email: Option<String>,
 }
 
 pub struct NewUser {
-    name: String,
-    email: String,
+    pub name: String,
+    pub email: String,
 }
