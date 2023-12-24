@@ -1,0 +1,7 @@
+CREATE TABLE series (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR NOT NULL,
+	repeat INTEGER NOT NULL,
+	good BOOLEAN NOT NULL,
+	category_id SERIAL REFERENCES categories(id)
+);

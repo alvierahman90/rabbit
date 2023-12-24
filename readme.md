@@ -4,10 +4,8 @@
 
 ## Why
 
-- Cross platform (just a web app)
+- Simple
 - Flexible (tracks whatever)
-- No sign up required
-- Can sign up if you want
 - Self-hostable
 - CalDAV reminders and calendars to remind you to build habits
 - Rust :crab: :muscle:

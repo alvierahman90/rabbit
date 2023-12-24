@@ -1,45 +1,45 @@
-use super::series_point::SeriesPoint;
-use chrono;
+use crate::schema::series;
+use diesel;
+use diesel::prelude::*;
+use rocket::form::FromForm;
 use serde::{Deserialize, Serialize};
 use serde_with;
 
 #[serde_with::serde_as]
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Queryable, Selectable, Identifiable, PartialEq)]
+#[diesel(table_name = series)]
+#[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Series {
     pub id: i32,
     pub name: String,
-    #[serde_as(as = "serde_with::DurationSeconds<i64>")]
-    pub repeat: chrono::Duration,
+    pub repeat: i32,
     pub good: bool,
-    pub points: Vec<SeriesPoint>,
+    pub category_id: i32,
 }
 
-impl Series {
-    pub fn new(id: i32, series: NewSeries) -> Series {
-        Series {
-            id,
-            name: series.name,
-            repeat: series.repeat,
-            good: series.good,
-            points: series.points,
-        }
-    }
-
-    pub fn add_point(&mut self, point: SeriesPoint) {
-        self.points.push(point);
-    }
+#[derive(FromForm)]
+pub struct SeriesFilter {
+    pub id: Option<i32>,
+    pub name: Option<String>,
+    pub repeat: Option<i32>,
+    pub good: Option<bool>,
+    pub category_id: Option<i32>,
 }
 
+#[derive(AsChangeset)]
+#[diesel(table_name = series)]
 pub struct SeriesChangeset {
     pub name: Option<String>,
-    pub repeat: Option<chrono::Duration>,
+    pub repeat: Option<i32>,
     pub good: Option<bool>,
-    pub points: Option<Vec<SeriesPoint>>,
+    pub category_id: Option<i32>,
 }
 
+#[derive(Insertable, Deserialize)]
+#[diesel(table_name = series)]
 pub struct NewSeries {
     pub name: String,
-    pub repeat: chrono::Duration,
+    pub repeat: i32,
     pub good: bool,
-    pub points: Vec<SeriesPoint>,
+    pub category_id: i32,
 }

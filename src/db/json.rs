@@ -6,15 +6,6 @@ pub struct JsonDb {
 
 /// JsonDb is single user.
 impl JsonDb {
-    pub fn new(value: Option<String>) -> Self {
-        match value {
-            Some(value) => JsonDb { value },
-            None => JsonDb {
-                value: String::from("[]"),
-            },
-        }
-    }
-
     fn load(&self) -> Result<Vec<Category>, Error> {
         match serde_json::from_str::<Vec<Category>>(&self.value) {
             Ok(d) => Ok(d),
@@ -35,6 +26,12 @@ impl JsonDb {
 }
 
 impl Storage for JsonDb {
+    fn new() -> Self {
+        JsonDb {
+            value: String::from("[]"),
+        }
+    }
+
     fn add_category(&mut self, category: NewCategory) -> Result<i32, Error> {
         let mut max_id = 1;
         let mut data = self.load()?;

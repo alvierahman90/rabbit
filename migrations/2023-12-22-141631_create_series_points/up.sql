@@ -1,0 +1,6 @@
+CREATE TABLE series_points (
+	id SERIAL PRIMARY KEY,
+	timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+	value INTEGER NOT NULL,
+	series_id SERIAL REFERENCES series(id)
+);

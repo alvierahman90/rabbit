@@ -1,25 +1,32 @@
-use super::series_type::SeriesType;
+use crate::schema::series_points;
 use chrono;
+use diesel;
+use diesel::prelude::*;
+use rocket::form::FromForm;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Queryable, Selectable, Identifiable, PartialEq)]
+#[diesel(table_name = series_points)]
+#[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct SeriesPoint {
     pub id: i32,
     pub timestamp: chrono::NaiveDateTime,
-    pub value: SeriesType,
+    pub value: i32,
+    pub series_id: i32,
 }
 
-impl SeriesPoint {
-    pub fn new(id: i32, new: NewSeriesPoint) -> SeriesPoint {
-        SeriesPoint {
-            id,
-            timestamp: new.timestamp,
-            value: new.value,
-        }
-    }
+#[derive(FromForm)]
+pub struct SeriesPointFilter {
+    pub id: Option<i32>,
+    pub timestamp_millis: Option<i64>,
+    pub value: Option<i32>,
+    pub series_id: Option<i32>,
 }
 
+#[derive(Insertable, Deserialize)]
+#[diesel(table_name = series_points)]
 pub struct NewSeriesPoint {
     pub timestamp: chrono::NaiveDateTime,
-    pub value: SeriesType,
+    pub value: i32,
+    pub series_id: i32,
 }
